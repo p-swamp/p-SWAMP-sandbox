@@ -1,0 +1,66 @@
+# A prototyping project for a new p-SWAMP analysis module, outside the p-SWAMP repo.
+#
+# Two packages:
+#   src/pswamp_modules/my_module/   the module being prototyped: what moves into the repo
+#                                   as modules/<name>/ when it works (README.md, "Promoting")
+#   src/pswamp_proto/               scaffolding that stays here: opening a grid, and an
+#                                   offline simulation that makes the frames and scans
+#
+# p-SWAMP is not on PyPI: it comes from a checkout beside this folder (../p-swamp),
+# editable, so a change there is live here. Each package is listed on its own,
+# because their `{ workspace = true }` sources mean nothing outside the p-SWAMP
+# workspace. A git dependency works the same way, e.g.
+#   pswamp-core = { git = "https://github.com/<owner>/p-SWAMP", subdirectory = "core", rev = "<sha>" }
+
+[project]
+name = "pswamp-prototype"
+version = "0.1.0"
+description = "A sandbox for prototyping a p-SWAMP module over the live grid simulation."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pswamp-core[cim]",
+    "pswamp-models",
+    "pswamp-rtsim-from-cim",  # the grid simulation that produces the PMU frames and SCADA scans
+    "numpy>=2.0",
+    "pandas>=2.2",
+    "matplotlib>=3.8",
+]
+
+# As in the repo: a pipeline finds the module by this name, and so does
+# pswamp_core.scripts.module("my-module"). It must equal the class's `name`.
+[project.entry-points."pswamp.modules"]
+my-module = "pswamp_modules.my_module:MyModule"
+
+[dependency-groups]
+dev = ["pytest>=8", "ipykernel>=6"]  # ipykernel: the scripts' `# %%` cells in VS Code's Interactive Window
+
+# Where p-SWAMP comes from: one of the two blocks below, the other commented out
+# (README.md, "Where p-SWAMP comes from"); then `uv lock`.
+
+# Editable, from a checkout beside this folder: an edit there is live here.
+[tool.uv.sources]
+pswamp-core = { path = "../p-swamp/core", editable = true }
+pswamp-models = { path = "../p-swamp/models", editable = true }
+pswamp-rtsim-from-cim = { path = "../p-swamp/modules/rtsim-from-cim", editable = true }
+
+# A normal install, pinned to a commit (it must be pushed: origin/main has no
+# rtsim-from-cim before the grid-monitor branch is merged). No checkout needed to
+# run the scripts and tests; `uv run --with-editable` puts one over it for a run.
+# [tool.uv.sources]
+# pswamp-core = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "core", rev = "<commit>" }
+# pswamp-models = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "models", rev = "<commit>" }
+# pswamp-rtsim-from-cim = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "modules/rtsim-from-cim", rev = "<commit>" }
+
+[build-system]
+requires = ["uv_build"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+# pswamp_modules is a PEP 420 namespace, as in the repo: no src/pswamp_modules/__init__.py.
+module-name = ["pswamp_modules.my_module", "pswamp_proto"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# rdflib (under the in-process CIM store) warns on every query, thousands of times a run.
+filterwarnings = ["ignore::DeprecationWarning:rdflib.*"]
