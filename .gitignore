@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.png
+dev
+grids/*
+!grids/nordic44/
