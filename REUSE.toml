@@ -1,0 +1,7 @@
+version = 1
+
+[[annotations]]
+path = "grids/nordic44/**"
+precedence = "override"
+SPDX-FileCopyrightText = "Statnett SF (Nordic44); modifications: contributors to this repository"
+SPDX-License-Identifier = "CC-BY-NC-SA-4.0"

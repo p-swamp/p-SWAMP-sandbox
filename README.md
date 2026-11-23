@@ -87,6 +87,13 @@ behave differently there.
 | `src/pswamp_proto/grid.py` | `open_grid`: a read-only repository over a grid | stays |
 | `src/pswamp_proto/offline.py` | `OfflineSim`: the live source's frames and scans, offline | stays |
 | `scripts/` | the prototype loops | an example may become `modules/<name>/examples/` |
+| `grids/nordic44/` | modified Nordic44 (CC BY-NC-SA 4.0) | stays |
+
+## Licence
+
+Apache-2.0 (see [LICENSE](LICENSE)), except `grids/nordic44/`. That folder holds a
+modified version of Statnett's Nordic44 model and is under CC BY-NC-SA 4.0, which does
+not allow commercial use. See [grids/nordic44/README.md](grids/nordic44/README.md).
 
 ## The grid and the measurements
 
@@ -110,8 +117,11 @@ for message in sim.run(20.0, at={2.0: sim.trip("Alpha-Gamma 400 kV line"),
   `pswamp_core.cim.measurement_table(repo)` says what each one is: quantity, unit,
   equipment, terminal. Power is signed into the equipment, as in CGMES, so a
   machine's generation is negative.
-- **Nordic44** is downloaded by LazyCIM on first use. Its licence is CC BY-NC-SA:
-  never commit it.
+- **Nordic44** comes in two versions. `"nordic44"` is Statnett's original, which
+  LazyCIM downloads on first use. `"./grids/nordic44"` is this repo's modified copy,
+  with measurements (OP), machine dynamics (DY) and a geographic layout (GL). Both are
+  CC BY-NC-SA 4.0, not Apache-2.0: no commercial use. See
+  [grids/nordic44/README.md](grids/nordic44/README.md).
 
 **What the offline simulation leaves out**, compared with the live source:
 - **Protection.** Nothing trips unless you trip it.
