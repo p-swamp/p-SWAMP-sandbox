@@ -14,9 +14,9 @@ with p-SWAMP installed as a dependency. It gives you:
 
 ## Setup
 
-As committed, it expects a p-SWAMP checkout beside it (`../p-swamp`); change the
-paths in `[tool.uv.sources]` of `pyproject.toml` if yours is elsewhere, or switch
-to a normal install (next section).
+As committed, it installs p-SWAMP from git, the `feature/extra-modules-hook` branch
+of https://github.com/p-swamp/p-swamp, so no checkout is needed for the scripts and
+tests. To work against a checkout instead, switch to the editable block (next section).
 
 ```
 uv sync
@@ -34,15 +34,18 @@ cells below them as you change the module.
 `pyproject.toml` has two `[tool.uv.sources]` blocks; one is commented out. Swap
 them, then `uv lock`.
 
-- **Editable, from a checkout** (`path = "../p-swamp/..."`, the default): an edit
-  of p-SWAMP is live here at once. Use it while you change both together.
-- **A normal install, pinned to a commit** (`git = "https://github.com/p-swamp/p-swamp"`,
-  `rev = "<commit>"`): p-SWAMP is installed into `.venv` like any package, and
-  nothing here changes until you move the `rev`. No checkout is needed for the
-  scripts and tests. The commit must be pushed.
+- **A normal install from git** (`git = "https://github.com/p-swamp/p-swamp"`,
+  `branch = "feature/extra-modules-hook"`, the default): p-SWAMP is installed into
+  `.venv` like any package. `uv.lock` pins the branch's commit, so nothing here
+  changes until you run `uv lock --upgrade` to pick up new pushes. No checkout is
+  needed for the scripts and tests. Once the branch is merged, point it at main
+  (`rev = "<commit>"`, which must be pushed).
+- **Editable, from a checkout** (`path = "../p-swamp/..."`): an edit of p-SWAMP is
+  live here at once. Use it while you change both together. Change the paths if
+  your checkout is not at `../p-swamp`.
 
-With the pinned install you can still run against a checkout, for one run only.
-The checkout's code, uncommitted edits included, shadows the pinned packages:
+With the git install you can still run against a checkout, for one run only.
+The checkout's code, uncommitted edits included, shadows the installed packages:
 
 ```
 uv run --with-editable ../p-swamp/models --with-editable ../p-swamp/core \
@@ -74,7 +77,7 @@ own compose files, including p-SWAMP's `docker-compose.override.yml` if it has o
 A relative path in it (`./grids/my-grid`) is relative to this folder. Oxigraph
 keeps a grid it already holds, so take the stack down before changing grids. Ctrl-C stops the stack, as does `docker compose -p p-swamp down
 --remove-orphans`. In the stack the module runs on the **checkout's** p-SWAMP, not
-the pinned one. Keep the two on the same commit, or what passes the tests here may
+the installed one. Keep the two on the same commit, or what passes the tests here may
 behave differently there.
 
 ## Layout

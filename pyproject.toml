@@ -40,17 +40,17 @@ dev = ["pytest>=8", "ipykernel>=6"]  # ipykernel: the scripts' `# %%` cells in V
 
 # Editable, from a checkout beside this folder: an edit there is live here.
 [tool.uv.sources]
-pswamp-core = { path = "../p-swamp/core", editable = true }
-pswamp-models = { path = "../p-swamp/models", editable = true }
-pswamp-rtsim-from-cim = { path = "../p-swamp/modules/rtsim-from-cim", editable = true }
+# pswamp-core = { path = "../p-swamp/core", editable = true }
+# pswamp-models = { path = "../p-swamp/models", editable = true }
+# pswamp-rtsim-from-cim = { path = "../p-swamp/modules/rtsim-from-cim", editable = true }
 
 # A normal install, pinned to a commit (it must be pushed: origin/main has no
 # rtsim-from-cim before the grid-monitor branch is merged). No checkout needed to
 # run the scripts and tests; `uv run --with-editable` puts one over it for a run.
 # [tool.uv.sources]
-# pswamp-core = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "core", rev = "<commit>" }
-# pswamp-models = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "models", rev = "<commit>" }
-# pswamp-rtsim-from-cim = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "modules/rtsim-from-cim", rev = "<commit>" }
+pswamp-core = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "core", rev = "<commit>" }
+pswamp-models = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "models", rev = "<commit>" }
+pswamp-rtsim-from-cim = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "modules/rtsim-from-cim", rev = "<commit>" }
 
 [build-system]
 requires = ["uv_build"]
