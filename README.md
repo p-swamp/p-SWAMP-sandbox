@@ -1,4 +1,4 @@
-# pswamp-prototype
+# p-SWAMP-sandbox
 
 A sandbox for prototyping a new p-SWAMP analysis module, outside the p-SWAMP repo,
 with p-SWAMP installed as a dependency. It gives you:
@@ -168,7 +168,7 @@ The rules that matter now, so that promotion is a move rather than a rewrite:
 From the p-SWAMP checkout, without moving anything into it:
 
 ```
-uv run pswamp dev server --extra-modules ../pswamp-prototype
+uv run pswamp dev server --extra-modules ../p-SWAMP-sandbox
 ```
 
 This is the ordinary dev stack (server, Kafka, Oxigraph, workers, the live grid

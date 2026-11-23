@@ -1121,7 +1121,7 @@ wheels = [
 [[package]]
 name = "pswamp-core"
 version = "0.1.0"
-source = { editable = "../p-swamp/core" }
+source = { git = "https://github.com/p-swamp/p-swamp?subdirectory=core&branch=feature%2Fextra-modules-hook#15c557b7ab012d99b84fbdec4f1ff002fb9f5cb1" }
 dependencies = [
     { name = "pswamp-models" },
     { name = "pydantic" },
@@ -1132,29 +1132,29 @@ cim = [
     { name = "lazycim", extra = ["graphdb"] },
 ]
 
-[package.metadata]
-requires-dist = [
-    { name = "aiokafka", marker = "extra == 'kafka'", specifier = ">=0.14,<1" },
-    { name = "lazycim", extras = ["graphdb"], marker = "extra == 'cim'", specifier = "==0.3.1" },
-    { name = "lazycim", extras = ["graphdb", "oxigraph"], marker = "extra == 'oxigraph'", specifier = "==0.3.1" },
-    { name = "pswamp-models", editable = "../p-swamp/models" },
-    { name = "pydantic", specifier = ">=2.12" },
-]
-provides-extras = ["kafka", "cim", "oxigraph"]
-
 [[package]]
 name = "pswamp-models"
 version = "0.1.0"
-source = { editable = "../p-swamp/models" }
+source = { git = "https://github.com/p-swamp/p-swamp?subdirectory=models&branch=feature%2Fextra-modules-hook#15c557b7ab012d99b84fbdec4f1ff002fb9f5cb1" }
 dependencies = [
     { name = "pydantic" },
 ]
 
-[package.metadata]
-requires-dist = [{ name = "pydantic", specifier = ">=2.12" }]
+[[package]]
+name = "pswamp-rtsim-from-cim"
+version = "0.1.0"
+source = { git = "https://github.com/p-swamp/p-swamp?subdirectory=modules%2Frtsim-from-cim&branch=feature%2Fextra-modules-hook#15c557b7ab012d99b84fbdec4f1ff002fb9f5cb1" }
+dependencies = [
+    { name = "lazycim", extra = ["graphdb"] },
+    { name = "numpy" },
+    { name = "pswamp-core", extra = ["cim"] },
+    { name = "pswamp-models" },
+    { name = "scipy" },
+    { name = "tops" },
+]
 
 [[package]]
-name = "pswamp-prototype"
+name = "pswamp-sandbox"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
@@ -1177,9 +1177,9 @@ requires-dist = [
     { name = "matplotlib", specifier = ">=3.8" },
     { name = "numpy", specifier = ">=2.0" },
     { name = "pandas", specifier = ">=2.2" },
-    { name = "pswamp-core", extras = ["cim"], editable = "../p-swamp/core" },
-    { name = "pswamp-models", editable = "../p-swamp/models" },
-    { name = "pswamp-rtsim-from-cim", editable = "../p-swamp/modules/rtsim-from-cim" },
+    { name = "pswamp-core", extras = ["cim"], git = "https://github.com/p-swamp/p-swamp?subdirectory=core&branch=feature%2Fextra-modules-hook" },
+    { name = "pswamp-models", git = "https://github.com/p-swamp/p-swamp?subdirectory=models&branch=feature%2Fextra-modules-hook" },
+    { name = "pswamp-rtsim-from-cim", git = "https://github.com/p-swamp/p-swamp?subdirectory=modules%2Frtsim-from-cim&branch=feature%2Fextra-modules-hook" },
 ]
 
 [package.metadata.requires-dev]
@@ -1187,31 +1187,6 @@ dev = [
     { name = "ipykernel", specifier = ">=6" },
     { name = "pytest", specifier = ">=8" },
 ]
-
-[[package]]
-name = "pswamp-rtsim-from-cim"
-version = "0.1.0"
-source = { editable = "../p-swamp/modules/rtsim-from-cim" }
-dependencies = [
-    { name = "lazycim", extra = ["graphdb"] },
-    { name = "numpy" },
-    { name = "pswamp-core", extra = ["cim"] },
-    { name = "pswamp-models" },
-    { name = "scipy" },
-    { name = "tops" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "lazycim", extras = ["graphdb"], specifier = "==0.3.1" },
-    { name = "matplotlib", marker = "extra == 'examples'", specifier = ">=3.8" },
-    { name = "numpy", specifier = ">=2.0" },
-    { name = "pswamp-core", extras = ["cim"], editable = "../p-swamp/core" },
-    { name = "pswamp-models", editable = "../p-swamp/models" },
-    { name = "scipy", specifier = ">=1.11" },
-    { name = "tops", specifier = ">=0.6" },
-]
-provides-extras = ["examples"]
 
 [[package]]
 name = "ptyprocess"

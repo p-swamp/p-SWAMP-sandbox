@@ -13,7 +13,7 @@
 #   pswamp-core = { git = "https://github.com/<owner>/p-SWAMP", subdirectory = "core", rev = "<sha>" }
 
 [project]
-name = "pswamp-prototype"
+name = "pswamp-sandbox"
 version = "0.1.0"
 description = "A sandbox for prototyping a p-SWAMP module over the live grid simulation."
 readme = "README.md"
@@ -44,13 +44,13 @@ dev = ["pytest>=8", "ipykernel>=6"]  # ipykernel: the scripts' `# %%` cells in V
 # pswamp-models = { path = "../p-swamp/models", editable = true }
 # pswamp-rtsim-from-cim = { path = "../p-swamp/modules/rtsim-from-cim", editable = true }
 
-# A normal install, pinned to a commit (it must be pushed: origin/main has no
+# A normal install from git, the feature/extra-modules-hook branch (origin/main has no
 # rtsim-from-cim before the grid-monitor branch is merged). No checkout needed to
 # run the scripts and tests; `uv run --with-editable` puts one over it for a run.
 # [tool.uv.sources]
-pswamp-core = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "core", rev = "<commit>" }
-pswamp-models = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "models", rev = "<commit>" }
-pswamp-rtsim-from-cim = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "modules/rtsim-from-cim", rev = "<commit>" }
+pswamp-core = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "core", branch = "feature/extra-modules-hook" }
+pswamp-models = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "models", branch = "feature/extra-modules-hook" }
+pswamp-rtsim-from-cim = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "modules/rtsim-from-cim", branch = "feature/extra-modules-hook" }
 
 [build-system]
 requires = ["uv_build"]
