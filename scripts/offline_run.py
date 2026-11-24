@@ -14,18 +14,24 @@ After editing the module, re-import it (or restart the kernel): ``importlib.relo
 # %% Settings
 import pswamp_proto  # first: it sets OPENBLAS_NUM_THREADS before numpy is imported
 
-# GRID = "sample"  # "sample", "nordic44", a folder of CGMES files, or "http://127.0.0.1:7878" (a running stack)
-GRID = "/mnt/c/Users/hallvarh/CodingVC/openmodelbuilder2/output_data/cim/scandinavia_135km"
+GRID = "./grids/nordic44"
 SECONDS = 20.0  # simulated seconds
+LINE = '300KRISTIAN-ARENDAL'
 EVENTS = {  # simulated time -> what happens: names or mRIDs from sim.operable()
-    2.0: ("trip", ["Verdal trafostasjon 300 kV - Surna koblingsstasjon 300 kV 1"]),
-    10.0: ("reclose", ["Verdal trafostasjon 300 kV - Surna koblingsstasjon 300 kV 1"]),
+    2.0: ("trip", [LINE]),
+    10.0: ("reclose", [LINE]),
 }
 SCADA_PERIOD = 2.0  # simulated seconds between SCADA scans (0: none)
 SAVE: str | None = None  # write the plot to this PNG instead of showing it
 
 # %% Load the grid (slow)
 repo = pswamp_proto.open_grid(GRID)
+# repo.query
+from lazycim import L, debug_object, F
+debug_object(repo.query(L.ACLineSegment).first())
+repo.query(L.ACLineSegment).to_dataframe(r=F.r, x=F.x, name=F.name)
+repo.query(L.ConnectivityNode).to_dataframe(r=F.r, x=F.x, name=F.name)
+
 
 # %% Build the simulation (slow): a fresh one starts at steady state at t = 0
 sim = pswamp_proto.OfflineSim(repo, scada_period=SCADA_PERIOD)
@@ -34,7 +40,7 @@ if sim.left_out:
 print(f"{sim.header.n_columns} PMU columns; operable:")
 print(sim.operable().to_string())
 
-# sim.operable()["name"].loc[327]
+sim.operable()["name"].loc[4]
 
 # %% Simulate, and run the module over every message in order
 from pswamp_core.scripts import module  # noqa: E402
