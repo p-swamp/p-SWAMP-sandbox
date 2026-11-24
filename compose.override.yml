@@ -11,22 +11,22 @@
 # after changing the grid, take the stack down first
 # (docker compose -p p-swamp down --remove-orphans).
 #
-# Uncomment and point at your grid. `services: {}` keeps the file valid meanwhile.
-# services: {}
-# services:
-#   server:
-#     environment:
-#       PSWAMP_CIM_PATH: /grids/my-grid
-#     volumes:
-#       - ./grids/my-grid:/grids/my-grid:ro
+# This loads the modified Nordic44 grid in grids/nordic44. For another grid, change
+# both the path and the mount:
+#
+#   services:
+#     server:
+#       environment:
+#         PSWAMP_CIM_PATH: /grids/my-grid
+#       volumes:
+#         - ./grids/my-grid:/grids/my-grid:ro
 #
 # The sample grid ships in the image, so it needs no mount:
-#       PSWAMP_CIM_PATH: /workspace/p-SWAMP/core/src/pswamp_core/cim/sample_grid
-
+#         PSWAMP_CIM_PATH: /workspace/p-SWAMP/core/src/pswamp_core/cim/sample_grid
 
 services:
   server:
     environment:
-      PSWAMP_CIM_PATH: /grids/scandinavia_135km
+      PSWAMP_CIM_PATH: /grids/nordic44
     volumes:
-      - /mnt/c/Users/hallvarh/CodingVC/openmodelbuilder2/output_data/cim/scandinavia_135km:/grids/scandinavia_135km:ro
+      - ./grids/nordic44:/grids/nordic44:ro

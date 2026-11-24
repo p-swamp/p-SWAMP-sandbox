@@ -72,7 +72,8 @@ override in this project and add it with `-f`:
 uv run --project ../p-swamp pswamp dev server --extra-modules . -f compose.override.yml
 ```
 
-`compose.override.yml` is an example with comments. It is added after p-SWAMP's
+`compose.override.yml` loads this repo's Nordic44 grid (`grids/nordic44`); its
+comments show how to point it at another grid. It is added after p-SWAMP's
 own compose files, including p-SWAMP's `docker-compose.override.yml` if it has one.
 A relative path in it (`./grids/my-grid`) is relative to this folder. Oxigraph
 keeps a grid it already holds, so take the stack down before changing grids. Ctrl-C stops the stack, as does `docker compose -p p-swamp down
