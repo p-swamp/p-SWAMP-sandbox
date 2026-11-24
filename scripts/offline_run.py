@@ -26,12 +26,6 @@ SAVE: str | None = None  # write the plot to this PNG instead of showing it
 
 # %% Load the grid (slow)
 repo = pswamp_proto.open_grid(GRID)
-# repo.query
-from lazycim import L, debug_object, F
-debug_object(repo.query(L.ACLineSegment).first())
-repo.query(L.ACLineSegment).to_dataframe(r=F.r, x=F.x, name=F.name)
-repo.query(L.ConnectivityNode).to_dataframe(r=F.r, x=F.x, name=F.name)
-
 
 # %% Build the simulation (slow): a fresh one starts at steady state at t = 0
 sim = pswamp_proto.OfflineSim(repo, scada_period=SCADA_PERIOD)
@@ -39,8 +33,6 @@ if sim.left_out:
     print("left out of the model:", sim.left_out)
 print(f"{sim.header.n_columns} PMU columns; operable:")
 print(sim.operable().to_string())
-
-sim.operable()["name"].loc[4]
 
 # %% Simulate, and run the module over every message in order
 from pswamp_core.scripts import module  # noqa: E402

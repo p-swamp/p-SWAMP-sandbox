@@ -6,11 +6,10 @@
 #   src/pswamp_proto/               scaffolding that stays here: opening a grid, and an
 #                                   offline simulation that makes the frames and scans
 #
-# p-SWAMP is not on PyPI: it comes from a checkout beside this folder (../p-swamp),
-# editable, so a change there is live here. Each package is listed on its own,
-# because their `{ workspace = true }` sources mean nothing outside the p-SWAMP
-# workspace. A git dependency works the same way, e.g.
-#   pswamp-core = { git = "https://github.com/<owner>/p-SWAMP", subdirectory = "core", rev = "<sha>" }
+# p-SWAMP is not on PyPI: by default it is installed from git (the
+# [tool.uv.sources] block below), or editable from a checkout beside this folder.
+# Each package is listed on its own, because their `{ workspace = true }` sources
+# mean nothing outside the p-SWAMP workspace.
 
 [project]
 name = "pswamp-sandbox"
@@ -25,6 +24,8 @@ dependencies = [
     "numpy>=2.0",
     "pandas>=2.2",
     "matplotlib>=3.8",
+    "lazycim>=0.3",  # imported directly by the scripts (LazyCIM queries)
+    "scipy>=1.13",  # scripts/power_flow.py
 ]
 
 # As in the repo: a pipeline finds the module by this name, and so does
@@ -36,21 +37,23 @@ my-module = "pswamp_modules.my_module:MyModule"
 dev = ["pytest>=8", "ipykernel>=6"]  # ipykernel: the scripts' `# %%` cells in VS Code's Interactive Window
 
 # Where p-SWAMP comes from: one of the two blocks below, the other commented out
-# (README.md, "Where p-SWAMP comes from"); then `uv lock`.
+# (README.md, "Where p-SWAMP comes from"). To swap, comment out the whole of one
+# block, header included, uncomment the other, then `uv lock`.
 
-# Editable, from a checkout beside this folder: an edit there is live here.
+# A normal install from git (the default), the feature/extra-modules-hook branch
+# (origin/main has no rtsim-from-cim before the grid-monitor branch is merged). No
+# checkout needed to run the scripts and tests; `uv run --with-editable` puts one
+# over it for a run.
 [tool.uv.sources]
-# pswamp-core = { path = "../p-swamp/core", editable = true }
-# pswamp-models = { path = "../p-swamp/models", editable = true }
-# pswamp-rtsim-from-cim = { path = "../p-swamp/modules/rtsim-from-cim", editable = true }
-
-# A normal install from git, the feature/extra-modules-hook branch (origin/main has no
-# rtsim-from-cim before the grid-monitor branch is merged). No checkout needed to
-# run the scripts and tests; `uv run --with-editable` puts one over it for a run.
-# [tool.uv.sources]
 pswamp-core = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "core", branch = "feature/extra-modules-hook" }
 pswamp-models = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "models", branch = "feature/extra-modules-hook" }
 pswamp-rtsim-from-cim = { git = "https://github.com/p-swamp/p-swamp", subdirectory = "modules/rtsim-from-cim", branch = "feature/extra-modules-hook" }
+
+# Editable, from a checkout beside this folder: an edit there is live here.
+# [tool.uv.sources]
+# pswamp-core = { path = "../p-swamp/core", editable = true }
+# pswamp-models = { path = "../p-swamp/models", editable = true }
+# pswamp-rtsim-from-cim = { path = "../p-swamp/modules/rtsim-from-cim", editable = true }
 
 [build-system]
 requires = ["uv_build"]

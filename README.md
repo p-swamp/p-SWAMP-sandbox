@@ -18,21 +18,28 @@ As committed, it installs p-SWAMP from git, the `feature/extra-modules-hook` bra
 of https://github.com/p-swamp/p-swamp, so no checkout is needed for the scripts and
 tests. To work against a checkout instead, switch to the editable block (next section).
 
+Clone it beside your p-SWAMP checkout (if you have one), as `p-SWAMP-sandbox`; the
+commands below that use a checkout assume `../p-swamp`.
+
 ```
+git clone git@github.com:p-swamp/p-SWAMP-sandbox.git
+cd p-SWAMP-sandbox
 uv sync
 uv run pytest                        # the module's tests, one of them on the simulated sample grid
 uv run python scripts/offline_run.py # simulate, trip a line, run the module, plot
 uv run python scripts/live_run.py    # the module on the real-time live source
+uv run python scripts/power_flow.py  # a load flow built from LazyCIM queries of the grid
 ```
 
-`scripts/offline_run.py` is a notebook in a plain file (`# %%` cells for VS Code's
-Interactive Window). Load the grid and build the simulation once, then re-run the
-cells below them as you change the module.
+`scripts/offline_run.py` and `scripts/power_flow.py` are notebooks in plain files
+(`# %%` cells for VS Code's Interactive Window). Load the grid and build the
+simulation once, then re-run the cells below them as you change the module.
 
 ## Where p-SWAMP comes from
 
 `pyproject.toml` has two `[tool.uv.sources]` blocks; one is commented out. Swap
-them, then `uv lock`.
+them (comment out the whole of one, header included, and uncomment the other),
+then `uv lock`.
 
 - **A normal install from git** (`git = "https://github.com/p-swamp/p-swamp"`,
   `branch = "feature/extra-modules-hook"`, the default): p-SWAMP is installed into
